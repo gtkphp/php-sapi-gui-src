@@ -1,0 +1,57 @@
+dev@dev-home:~/Projects/web-php$ php -S localhost:8080 .router.php
+
+http://doc.php.net/tutorial/joining.php
+https://github.com/php/doc-fr
+
+DOMDocument :
+MutationObserver
+QuerySelect
+CSS3
+JavaScript
+
+php_gui.c
+
+php_gtkml_parser.h
+php_glade_parser.h
+
+
+Je connais les proccess indispensable en entreprise.
+
+
++ php-gtk( POO style)
+   + Cairo
+     + Cairo\Surface
+   + Glib
+      + G\Application
+   + Gtk
+      + idl( @see https://developer.gnome.org/gtk3/)
+         + 3.22.0
+         gtk+-2.90.7.idl
+         gtk+-3.0.12.idl
+         gtk+-3.2.4.idl
+         gtk+-3.4.4.idl
+         gtk+-3.6.5.idl
+         gtk+-3.8.9.idl
+         gtk+-3.10.8.idl
+         gtk+-3.12.1.idl
+         gtk+-3.14.15.idl
+         gtk+-3.16.7.idl
+         gtk+-3.18.9.idl
+         gtk+-3.20.10.idl
+         gtk+-3.22.30.idl *
+         gtk+-3.24.24.idl
+
+      + Gtk\Application
+      + Gtk\Window
+
++ gtkml( not accessible by php ?)
+    GTKML\Document
+    GTKML\Node
+    GTKML\Element
+    GTKML\ApplicationElement
+    GTKML\WindowElement
+    GTKML\WindowElement
+
++ sapi/gui
+   + php( php-gui)
+

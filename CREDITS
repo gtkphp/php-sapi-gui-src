@@ -1,0 +1,41 @@
+--------------------------------------------------------------------
+                      GTK+PHP, Version 0.0.7
+Copyright (c) 2021-2021, Sergio DE VASCONCELOS.
+--------------------------------------------------------------------
+
+
+Preambul
+========
+PHP-GTK : In Memoriam
+
+Dedicated to the tireless developers who have come and gone.
+To those who have put their heart and soul into PHP products.
+To those who have seen their good intentions and hard work squandered.
+To those who really cared about the user, and cared about usability.
+To those who truly understood us and desired freedom, but were unheard.
+To those who knew that change is inevitable, but loss of vision is not.
+To those who were forced to give up the good fight.
+Thank you.
+
+GTK+PHP would not have been possible without :
+
+Alan Knowles               (Hong Kong)
+Alexandre Pereira Bühler   (Brazil)
+* Andrei Zmievski *        (USA)
+Christian Weiske           (Germany)
+Elizabeth M Smith          (USA)
+Felipe Pena                (Brazil)
+Florian Löffler            (Germany)
+Frank M. Kromann           (USA)
+Kalle Sommer Nielsen       (Finland)
+(mahcuz)
+Zachary Reis
+
+Anant Narayanan
+James Moore
+João Ornelas
+Pablo Dall'Oglio
+Scott Mattocks
+Steph Fox
+
+All The PHP Group.

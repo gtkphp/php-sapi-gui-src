@@ -1,0 +1,90 @@
+GTK+PHP SAPI (sapi/gui/php alias php-gui)
+
+Why GTK+PHP and not PHP-GTK ?
+Because php-gui is a GTK+ application than use Zend as Scripting engine.
+Like Blender use python as scription language.
+Or like Webbrowser use Javascript.
+Pour tout ceux qui souhaite créer des application native aussi simplement qu'en HTML/JS
+Environnement widget unifier
+
+https://github.com/gabrielrcouto/php-gui
+php-gtk
+
+Naio - Cool Running
+https://www.youtube.com/watch?v=OxZgXXftdK4
+
+
+
+Introduction
+============
+The GTK+PHP SAPI has been introduced
+with a goal of making PHP better at supporting the creation of
+native GUI applications.
+
+ • Reduce the cost of development.
+ • Improve user experience.
+ • Respect user.
+
+
+
+
+php-gui SAPI module is an interface for PHP integration than parse
+a dedicated Gtk+ markup language : GTKML( than can be displayed in
+web-browser). php-gui SAPI has similar use to the php-cli SAPI with
+this difference: the output is a graphical user-interface( GtkWidget)
+, web server can be used in conjonction.
+
+Building PHP with php-gui SAPI
+================================
+
+GTK+ [2.0> | 3.0> | 4.0>] is required
+
+You need to add "--with-gui" to the configure command to build
+PHP with php-gui SAPI, all other SAPI related configure options
+should be removed.
+
+For example:
+    ./configure --with-gui --with-gtkml
+    make
+
+You should find an executable called 'php' under sapi/gui/
+directory after the compilation succeeds. Install bin/php-gui
+
+Start PHP from command line
+===========================
+
+Usage:
+user:php-src$ ./sapi/gui/php -f window.php
+
+If installed :
+$ GTK_THEME=Alliance \
+  G_DEBUG=fatal-warnings \
+  G_MESSAGES_DEBUG=GTKML PARSER SIGNAL\
+  php-gui window.php
+
+
+user:php-src$ cat ext/gtkml/gtk.php
+<?php
+echo "<window>";
+echo "Hello PHP-GUI";
+echo "</window>";
+user:php-src$ ./sapi/gui/php ext/gtkml/gtk.php
+
+
+user:php-src$ ./sapi/cli/php window.php | ./sapi/gui/php
+user:php-src$ echo "<window title='GTK+PHP'/>" | ./sapi/gui/php
+user:php-src$ ./sapi/gui/php -a
+>Gtk\init();
+>$window = new Gtk\Window();
+>$window->show();
+>Gtk\main();
+
+
+Contact
+=======
+
+For support questions, please post to our free support forum, at:
+
+https://php-gui.php.net/
+
+For bug report, please send bug report to bug [at] php.net.
