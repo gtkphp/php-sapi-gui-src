@@ -33,22 +33,22 @@
 
 #include "ext/gtk/php_gobject/object.h"
 //#include "ext/gtk/php_gtk.h"
-#include "ext/gtk/php_gtk/widget.h"
+#include "ext/gtk/php_gtk/button.h"
 #include "ext/gtk/php_gtk/window.h"
 
-#include "php_gui_builder.h"
+#include "php_gtkml_builder.h"
 
 #include "php_gui_parser.h"
 
 
 static php_gtk_widget *gtkml_window_new(char *attrs[]);
-
+static php_gtk_widget *gtkml_button_new(char *attrs[]);
 
 
 static GArray *factories = NULL;// GArray<FactoryEntry>
 
 static FactoryEntry gtkml_entry_window = {"window", gtkml_window_new, TRUE};
-
+static FactoryEntry gtkml_entry_button  = {"button", gtkml_button_new, TRUE};
 
 static GArray*
 php_gui_get_factories() {
@@ -59,6 +59,7 @@ php_gui_get_factories() {
 
     // DO it alpha ordered
     g_array_append_val(factories, gtkml_entry_window);
+    g_array_append_val(factories, gtkml_entry_button);
 
     //g_array_sort(factories, (GCompareFunc)cb);
     return factories;
@@ -156,6 +157,59 @@ gtkml_window_new(char *attrs[])
     g_signal_connect(GTK_WINDOW(gobj->ptr), "destroy", gtk_main_quit, NULL);
     // loop attrs
     // gtk_widget_set_property(gobj, "attribute-name", value);
+
+    return gobj;
+}/*}}} */
+
+
+/* {{{ gtkml_window_new
+ * @attrs an c array null terminated
+ */
+static php_gtk_widget*
+gtkml_button_new(char *attrs[])
+{
+    zend_object *zobj = zend_objects_new(php_gtk_button_class_entry);
+    //zend_object *zobj = php_gtk_widget_new(php_gtk_window_class_entry);
+    //php_gtk_widget *gobj = php_gtk_widget_from_obj(zobj);
+    php_gobject_object *gobj = ZOBJ_TO_PHP_GOBJECT_OBJECT(zobj);
+
+    // read from attribute <button label="Click" />
+
+    // FIXME: loop all attrs and feed a struct options
+#if 1
+    char *label=NULL;
+    char *str_attr;
+    char *str_value;
+    if (attrs!=NULL) {
+        int i;
+        for(i=0; attrs[i]!=NULL; i+=2) {
+            //g_print("attr: %s\n", atts[i]);// <input  disabled /> use libxml2 module HTMLParser
+            //g_print("%s=\"%s\"", attrs[i], attrs[i+1]);
+            str_attr = g_utf8_casefold (attrs[i], -1);
+            if(0==g_strcmp0(str_attr, "label")) {
+                label = attrs[i+1];
+            } else if(0==g_strcmp0(str_attr, "clicked")) {
+                fprintf( stderr, "[Unimplemented Attribute: '%s']\n", attrs[i]);
+                fprintf( stderr, "   %s\n", attrs[i+1]);
+            } else {
+                //printf("\e[1;31mUnknown Attribute: '%s'\e[0m\n", attrs[i]);
+                fprintf( stderr, "[Unknown Attribute: '%s']\n", attrs[i]);
+            }
+        }
+    }
+#endif
+
+
+    zval obj;
+    zval retval;
+    ZVAL_OBJ(&obj, zobj);
+    zend_call_method_with_0_params(&obj, Z_OBJCE_P(&obj), NULL,
+                                   "__construct", &retval);
+    if (label) {
+        gtk_button_set_label(GTK_BUTTON(gobj->ptr), label);
+    }
+
+    gtk_widget_show(GTK_WIDGET(gobj->ptr));
 
     return gobj;
 }/*}}} */

@@ -1,5 +1,6 @@
 <window title="Hello World"><?php
     /*include "widget.php"*/;
-    echo "GTK+PHP";
-    /*<button clicked="gtk_main_quit();" />*/
-?></window>
+    /*echo "GTK+PHP";*/
+    /* label="Click" clicked="gtk_main_quit();"  */
+    /* <!--button><label>Button</label></button--> */
+?><button label="Button" /></window>
