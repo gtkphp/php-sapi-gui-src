@@ -56,7 +56,7 @@
 
 #include "php_gui_parser.h"
 
-#include "php_gui_builder.h"
+#include "php_gtkml_builder.h"
 
 
 static char *___message;
@@ -319,54 +319,6 @@ php_gui_parser_end_document(PhpGuiParserContext *ctx)
 #endif
 }
 
-#define SVG_URI "http://w3c.org/2009/svg"
-
-#if 0
-typedef php_gtk_widget *(*gtkml_element_factory)(char **attrs);
-typedef struct {char *element_name; gtkml_element_factory factory; int internal;} FactoryEntry;
-
-
-static GArray *factories = NULL;// GArray<FactoryEntry>
-
-static FactoryEntry gtkml_entry_window = {"window", gtkml_window_new, TRUE};
-
-static GArray*
-php_gui_get_factories() {
-    if (factories!=NULL) {
-        return factories;
-    }
-    factories = g_array_new(0, 0, sizeof(FactoryEntry));
-
-    // DO it alpha ordered
-    g_array_append_val(factories, gtkml_entry_window);
-
-    //g_array_sort(factories, (GCompareFunc)cb);
-    return factories;
-}
-
-static void
-php_gui_binary_search_factory(GArray *factories, char *name) {
-    return NULL;
-}
-
-gtkml_element_factory
-php_gui_get_element_factory(char *element_name) {
-    GArray *table = php_gui_get_factories();
-
-    //gtkml_element_factory factory = php_gui_binary_search_factory (table, element_name);
-    guint i;
-    for(i=0; i<table->len; i++) {
-        FactoryEntry *entry = &g_array_index(table, FactoryEntry, i);
-        if( 0==g_strcmp0(element_name, entry->element_name) ) {
-            //gtkml_element_factory factory = entry;
-            return entry->factory;
-        }
-    }
-
-    return NULL;
-}
-
-#endif
 
 
 static void
@@ -417,6 +369,12 @@ php_gui_parser_start_element (void *ctx,
             user_data->window = gobj;
             user_data->container = gobj;
             */
+        } else {
+            php_gobject_object *gobj = factory(atts);// gtkml_label_new(atts)
+            gtk_container_add(GTK_CONTAINER(user_data->container->ptr), gobj->ptr);
+
+            user_data->container = gobj;
+
         }
 
 
@@ -431,6 +389,9 @@ php_gui_parser_start_element (void *ctx,
 
 
 #if 0
+
+#define SVG_URI "http://w3c.org/2009/svg"
+
     GError *error = NULL;
     PhpGuiParserContext *parser = (PhpGuiParserContext *)ctx;
     DomDocument *document = php_gui_parser_get_document(parser);
@@ -495,6 +456,12 @@ php_gui_parser_end_element (void *ctx,
         user_data->is_end = 1;
     }
 
+    if (NULL!=user_data->buffer) {
+        gtk_button_set_label(GTK_BUTTON(user_data->container->ptr), user_data->buffer);
+        g_free(user_data->buffer);
+        user_data->buffer = NULL;
+    }
+
 #if 0
     g_log(DOM_PARSER_LOG_DOMAIN, G_LOG_LEVEL_INFO, "%s", G_STRFUNC);
     PhpGuiParserContext *parser = (PhpGuiParserContext *)ctx;
@@ -513,12 +480,24 @@ php_gui_parser_characters (void* ctx,
 
     trace(__FUNCTION__, user_data)
 
+    char *tmp;
+
+    if (NULL!=user_data->buffer) {
+        tmp = g_strdup_printf("%s%.*s", user_data->buffer, len, ch);
+        g_free(user_data->buffer);
+        user_data->buffer = tmp;
+    } else {
+        user_data->buffer = g_strdup_printf("%.*s", len, ch);
+    }
+
+    /*
     char *str = g_strndup(ch, len);
     GtkWidget *label = gtk_label_new(str);
     gtk_label_set_markup(GTK_LABEL(label), str);
     g_free(str);
     gtk_container_add(GTK_WINDOW(user_data->window->ptr), label);
     gtk_widget_show(label);
+    */
 
 
 #if 0
@@ -1153,6 +1132,7 @@ xmlParserCtxtPtr php_gui_parser_create(const char *filename) {
     xmlParserCtxtPtr parser = xmlCreatePushParserCtxt(&sh, NULL, NULL, 0, NULL);
     parser->_private = &user_data;
 
+    user_data.buffer = NULL;
     //user_data.deep = 0;
     //user_data.is_end = 0;
     user_data.status = 6;

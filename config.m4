@@ -52,7 +52,7 @@ PHP_EVAL_INCLINE($LIBXML_INCL, LIBXML_SHARED_LIBADD)
 
   PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/sapi/gui/Makefile.frag,$abs_srcdir/sapi/gui,sapi/gui)
   SAPI_GUI_PATH=sapi/gui/php
-  PHP_SELECT_SAPI(gui, program, php_gui.c php_gui_parser.c php_gui_builder.c, "", '$(SAPI_GUI_PATH)')
+  PHP_SELECT_SAPI(gui, program, php_gui.c php_gui_parser.c php_gtkml_builder.c, "", '$(SAPI_GUI_PATH)')
 dnl   case $host_alias in
 dnl   *darwin*)
 dnl     BUILD_GUI="\$(CC) \$(CFLAGS_CLEAN) \$(EXTRA_CFLAGS) \$(EXTRA_LDFLAGS_PROGRAM) \$(LDFLAGS) \$(NATIVE_RPATHS) \$(PHP_GLOBAL_OBJS:.lo=.o) \$(PHP_BINARY_OBJS:.lo=.o) \$(PHP_GUI_OBJS:.lo=.o) \$(PHP_FRAMEWORKS) \$(EXTRA_LIBS) \$(ZEND_EXTRA_LIBS) -o \$(SAPI_GUI_PATH)"
